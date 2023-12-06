@@ -32,9 +32,10 @@ textarea{
   -webkit-font-smoothing: antialiased;
   -mox-osx-font-smoothing: grayscale;
   margin: 0;
+  padding: 0;
 }
 
-ol,
+ol,delete button
 ul{
   list-style: none;
 }
