@@ -7,7 +7,7 @@ export const initialTodos = [
     {
       id: 2,
       title: 'Todo 2',
-      checked: true,
+      checked: false,
     },
     {
       id: 3,
