@@ -2,6 +2,8 @@ import './app.css'
 import { useState } from 'react'
 import { initialTodos } from './initialTodos'
 import { MdDelete } from'react-icons/md'
+import { TodoList } from './todoList'
+import { Input } from './components/Input'
 
 function App() {
   const ENTER_KEY = 13
@@ -11,27 +13,17 @@ function App() {
   const [todos, setTodos] = useState([])
 
 
-/**
- * The handleDeleteTask function filters the todos array to remove the itemToDelete and updates the
- * state with the new array.
- */
+  // Filtra os elementos do estado/array todo e se o item for diferente do item pressionado ele coloca dentro da nova lista
   function handleDeleteTask(itemToDelete) {
     setTodos(todos.filter(item => item !== itemToDelete))
   }
 
-/**
- * The submit function adds a new todo item to the todos array with a unique id, title, and checked
- * status, and then resets the input value to an empty string.
- */
   function submit(){
-    setTodos([...todos, {id:new Date().getTime(), title: value, checked: false}])
-    setValue('')
+      setTodos([...todos, {id:new Date().getTime(), title: value, checked: false}])
+      setValue('')
   }
 
-/**
- *A função verifica se a tecla pressionada é a tecla Enter e se o valor de entrada não está vazio, ela
- *alerta o valor; caso contrário, se a tecla pressionada for a tecla Escape, o valor de entrada será limpo.
- */
+  // Se pressionar a tecla enter dentro do input ativa a função "submit" e adiciona um novo objeto ao estado array todo
   function onKeyDown(event){
     if(event.which === ENTER_KEY && value.length > 0){
       submit()
@@ -40,49 +32,31 @@ function App() {
     }
   }
 
+  // Essa função mapeia o estado Todo e o objeto que tiver dentro dela possuir o id igual ao clicado vai fazer um toggle na propriedade checked dele
+  // e no li tem 
+  // className={todo.checked ? "todo checked" : "todo"}  
   function handleCheckedTask(todo){
-    todos.map((item) => {
-      item.id === todo.id ? {...item, checked: true} : item}
+    setTodos(
+      todos.map(item => item.id === todo.id? {...item, checked:!item.checked} : item)
     )
+  }
+
+  function onChange(e){
+    setValue(e.target.value)
   }
 
   return (
     <section id="app" className="container">
       <header>
-        <h1 className="title">todo</h1>
+        <h1 className="title">todo </h1>
       </header>
       <section className="main">
-        <input 
-          type="text" 
-          className="new-todo"
-          placeholder='O que precisa ser feito?'
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
-          onKeyDown={onKeyDown}
+        <Input 
+          value={value} 
+          onChange={onChange} 
+          onKeyDown={onKeyDown} 
         />
-
-
-
-        <ul className='todo-list'>
-          {
-            todos.map((todo) => (
-              <li key={todo.id}>
-                <span
-                  className='todo ' 
-                  onClick={() => handleCheckedTask(todo)}
-                  role='button'
-                  onKeyPress={() => handleCheckedTask(todo)}
-                >
-                  {todo.title}
-                </span>
-
-                <button type='button' onClick={() => handleDeleteTask(todo)}>
-                  <MdDelete className='delete-button' size={28}/>
-                </button>
-              </li>
-            ))
-          }
-        </ul>
+        <TodoList todos={todos}  handleCheckedTask={handleCheckedTask} handleDeleteTask={handleDeleteTask}/>
       </section>
     </section>
   )

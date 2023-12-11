@@ -55,7 +55,12 @@ input, select, textarea{
 }
 
 ::placeholder{
-  color: rgba(0,0,0,0.2)
+  color:rgba(0,0,0,0.2);
+
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  /* border: 1px solid red; */
 }
 
 .container{
